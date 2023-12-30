@@ -1,0 +1,92 @@
+// Aula 20 - Package Body
+
+CREATE OR REPLACE PACKAGE BODY status_pedidos
+AS
+  -- Obter o valor líquido de um pedido
+  FUNCTION obter_valor (
+      p_pedido_id NUMBER)
+    RETURN NUMBER
+  IS
+    ln_valor_liquido NUMBER := 0;
+  BEGIN
+    SELECT
+      SUM(preco_unitario * quantidade)
+    INTO
+      ln_valor_liquido
+    FROM
+      itens_pedidos
+    WHERE
+      pedido_id = p_pedido_id;
+
+    RETURN p_pedido_id;
+
+  EXCEPTION
+  WHEN no_data_found THEN
+    DBMS_OUTPUT.PUT_LINE( SQLERRM );
+  END obter_valor ;
+
+-- Obter valor líquido por cliente
+  FUNCTION pegar_valor_liquido_cliente(
+      p_cliente_id NUMBER,
+      p_ano        NUMBER)
+    RETURN NUMBER
+  IS
+    ln_valor_liquido NUMBER := 0;
+  BEGIN
+    SELECT
+      SUM(quantidade * preco_unitario)
+    INTO
+      ln_valor_liquido
+    FROM
+      itens_pedidos
+    INNER JOIN pedidos USING (pedido_id)
+    WHERE
+      extract(YEAR FROM pedido_data) = p_ano
+    AND cliente_id                 = p_cliente_id
+    AND status                      = gc_status_enviado;
+    RETURN ln_valor_liquido;
+  EXCEPTION
+  WHEN no_data_found THEN
+    DBMS_OUTPUT.PUT_LINE( SQLERRM );
+  END pegar_valor_liquido_cliente;
+
+END status_pedidos;
+
+SELECT
+  status_pedidos.pegar_valor_liquido_cliente(1,2021) vendas
+FROM
+  dual;
+  
+DROP PACKAGE BODY status_pedidos;
+
+DROP PACKAGE status_pedidos;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

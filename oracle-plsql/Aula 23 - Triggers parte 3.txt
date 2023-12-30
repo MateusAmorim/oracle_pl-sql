@@ -1,0 +1,77 @@
+// Aula 22 - Triggers parte 2
+
+> CREATE VIEW clientes_view AS
+    SELECT 
+        nome, 
+        endereco, 
+        website, 
+        limite_credito, 
+        funcionario_nome, 
+        sobrenome, 
+        email, 
+        tel
+    FROM 
+        clientes
+    INNER JOIN contatos USING (cliente_id);
+
+
+> INSERT INTO 
+    clientes_view(
+        nome, 
+        endereco, 
+        website, 
+        limite_credito, 
+        funcionario_nome, 
+        sobrenome, 
+        email, 
+        tel
+    )
+VALUES(
+    'Cliente Teste',
+    'Rua Teste INSTEAD OF Trigger', 
+    'https://www.teste.com/',
+    2000,
+    'ClienteNome',
+    'ClienteSobrenome',
+    'cliente.nome@teste.com',
+    '+55-11-9888888'
+);
+
+> CREATE OR REPLACE TRIGGER novo_cliente_trgs
+    INSTEAD OF INSERT ON clientes_view
+    FOR EACH ROW
+DECLARE
+    l_cliente_id NUMBER;
+BEGIN
+ 
+    INSERT INTO clientes(nome, endereco, website, limite_credito)
+    VALUES(:NEW.nome, :NEW.endereco, :NEW.website, :NEW.limite_credito)
+    RETURNING cliente_id INTO l_cliente_id;
+    
+    INSERT INTO contatos(funcionario_nome, sobrenome, email, tel, cliente_id)
+    VALUES(:NEW.funcionario_nome, :NEW.sobrenome, :NEW.email, :NEW.tel, l_cliente_id);
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

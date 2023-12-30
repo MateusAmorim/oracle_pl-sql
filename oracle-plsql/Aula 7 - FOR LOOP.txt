@@ -1,0 +1,77 @@
+// Aula 7 - FOR LOOP
+
+> BEGIN
+  FOR l_contador IN 1..5
+  LOOP
+    DBMS_OUTPUT.PUT_LINE( l_contador );
+  END LOOP;
+END;
+
+> DECLARE
+  l_etapa PLS_INTEGER := 2;
+BEGIN
+  FOR l_contador IN 1..5 LOOP
+    dbms_output.put_line (l_contador*l_etapa);
+  END LOOP;
+END;
+
+<<outer>>
+DECLARE
+  l_contador PLS_INTEGER := 10;
+BEGIN
+  FOR l_contador IN 1.. 5 loop
+    DBMS_OUTPUT.PUT_LINE ('Contador Local:' ||  l_contador);
+    outer.l_contador := l_contador;
+  end loop;
+  -- Depois do Loop
+  DBMS_OUTPUT.PUT_LINE ('Contador Global' || l_contador);
+END outer;
+
+BEGIN
+  FOR l_indice IN 1..3 loop
+    DBMS_OUTPUT.PUT_LINE (l_indice);
+  END LOOP;
+  -- índice de referência após o loop
+  DBMS_OUTPUT.PUT_LINE (l_indice);
+END;
+
+BEGIN
+  FOR l_indice IN 1..3 loop
+    DBMS_OUTPUT.PUT_LINE (l_indice);
+  END LOOP;
+  -- índice de referência após o loop
+  -- DBMS_OUTPUT.PUT_LINE (l_indice);
+END;
+
+BEGIN
+  FOR l_contador IN REVERSE 1..3
+  LOOP
+    DBMS_OUTPUT.PUT_LINE( l_contador );
+  END LOOP;
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

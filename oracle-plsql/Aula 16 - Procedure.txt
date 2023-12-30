@@ -1,0 +1,59 @@
+// Aula 16 - Procedure
+
+CREATE OR REPLACE PROCEDURE extrair_contato(
+    p_cliente_id NUMBER 
+)
+IS
+  r_contatos contatos%ROWTYPE;
+BEGIN
+  SELECT *
+  INTO r_contatos
+  FROM contatos
+  WHERE cliente_id = p_cliente_id;
+
+  dbms_output.put_line( r_contatos.funcionario_nome || ' ' ||
+  r_contatos.sobrenome || '<' || r_contatos.email ||'>' );
+
+EXCEPTION
+   WHEN OTHERS THEN
+      dbms_output.put_line( SQLERRM );
+END;
+
+EXEC extrair_contato(1);
+
+EXECUTE extrair_contato(1);
+
+DROP PROCEDURE extrair_contato;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

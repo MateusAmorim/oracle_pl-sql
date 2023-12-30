@@ -1,0 +1,95 @@
+// Aula 13 - Cursor
+
+CREATE VIEW vendas AS
+SELECT cliente_id,
+       SUM(preco_unitario * quantidade) total,
+       ROUND(SUM(preco_unitario * quantidade) * 0.05) credito
+FROM itens_pedidos
+INNER JOIN pedidos USING (pedido_id)
+WHERE status = 'Enviado'
+GROUP BY cliente_id;
+
+SELECT cliente_id,
+       SUM(preco_unitario * quantidade) total,
+       ROUND(SUM(preco_unitario * quantidade) * 0.05) credito
+FROM itens_pedidos
+INNER JOIN pedidos USING (pedido_id)
+WHERE status = 'Enviado'
+GROUP BY cliente_id;
+
+DECLARE
+  l_orcamento NUMBER := 1000000;
+   -- começa o cursor
+  CURSOR c_vendas IS
+  SELECT * FROM vendas  
+  ORDER BY total DESC;
+   -- record    
+   r_vendas c_vendas%ROWTYPE;
+BEGIN
+
+  UPDATE clientes SET limite_credito = 0;
+
+  OPEN c_vendas;
+
+  LOOP
+    FETCH c_vendas  INTO r_vendas;
+    EXIT WHEN c_vendas%NOTFOUND;
+
+    UPDATE 
+        clientes
+    SET  
+        limite_credito = 
+            CASE WHEN l_orcamento > r_vendas.credito 
+                        THEN r_vendas.credito 
+                            ELSE l_orcamento
+            END
+    WHERE 
+        cliente_id = r_vendas.cliente_id;
+
+    l_orcamento := l_orcamento - r_vendas.credito;
+
+    DBMS_OUTPUT.PUT_LINE( 'ID do Cliente: ' ||r_vendas.cliente_id || 
+' credito: ' || r_vendas.credito || ' Orçamento restante: ' || l_orcamento );
+
+    EXIT WHEN l_orcamento <= 0;
+  END LOOP;
+
+  CLOSE c_vendas;
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+// Aula 22 - Triggers parte 2
+
+> SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE TRIGGER trg_credito_clientes
+    BEFORE UPDATE OF limite_credito  
+    ON clientes
+DECLARE
+    l_dia_do_mes NUMBER;
+BEGIN
+
+    l_dia_do_mes := EXTRACT(DAY FROM sysdate);
+
+    IF l_dia_do_mes BETWEEN 28 AND 31 THEN
+        raise_application_error(-20100,'Não é possível atualizar o crédito do cliente entre os dias 28 a 31');
+    END IF;
+END;
+
+UPDATE 
+    clientes 
+SET 
+    limite_credito = limite_credito * 110;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

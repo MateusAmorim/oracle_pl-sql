@@ -1,0 +1,64 @@
+// Aula 19 - Spec Package
+
+> SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PACKAGE status_pedidos
+AS
+  gc_status_enviado  CONSTANT VARCHAR(10) := 'Enviado';
+  gc_status_pendente CONSTANT VARCHAR(10) := 'Pendente';
+  gc_status_cancelado CONSTANT VARCHAR(10) := 'Cancelado';
+
+  -- cursor that returns the order detail
+  CURSOR c_pedidos(p_pedido_id NUMBER)
+  IS
+    SELECT
+      cliente_id,
+      status,
+      vendedor_id,
+      pedido_data,
+      item_id,
+      produto_id,
+      quantidade,
+      preco_unitario
+    FROM
+      itens_pedidos
+    INNER JOIN pedidos USING (pedido_id)
+    INNER JOIN produtos USING (produto_id)
+    WHERE
+      pedido_id = p_pedido_id;
+
+  -- função que pega o valor do ID do cliente
+  FUNCTION obter_valor(
+      p_pedido_id NUMBER)
+    RETURN NUMBER;
+
+  -- função que pega o valor de venda por ano
+  FUNCTION pegar_valor_liquido_cliente(
+      p_cliente_id NUMBER,
+      p_ano        NUMBER)
+    RETURN NUMBER;
+
+END status_pedidos;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

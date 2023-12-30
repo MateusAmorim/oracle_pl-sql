@@ -1,0 +1,67 @@
+// Aula 3 - Condicional IF
+
+> SET SERVEROUTPUT ON;
+
+> DECLARE l_salario NUMBER := 20000; 
+BEGIN 
+   IF l_salario > 10000 THEN 
+      DBMS_OUTPUT.PUT_LINE( 'O salário é mais do que 10 mil ' ); 
+   END IF; 
+END;
+
+DECLARE
+  l_salario NUMBER := 300000;
+  l_comissao NUMBER( 10, 2 ) := 0;
+BEGIN
+  IF l_salario > 200000 THEN
+    l_comissao := l_salario * 0.2;
+      DBMS_OUTPUT.PUT_LINE( l_comissao ); 
+  ELSE
+    l_comissao := l_salario * 0.03;
+      DBMS_OUTPUT.PUT_LINE( l_comissao ); 
+  END IF;
+END;
+
+DECLARE
+  l_salario NUMBER := 300000;
+  l_comissao NUMBER( 10, 2 ) := 0;
+BEGIN
+  IF l_salario > 200000 THEN
+    l_comissao := l_salario * 0.3;
+     DBMS_OUTPUT.PUT_LINE( l_comissao );
+  ELSIF l_salario <= 200000 AND l_salario > 100000 THEN 
+    l_comissao := l_salario * 0.02;
+     DBMS_OUTPUT.PUT_LINE( l_comissao );
+  ELSIF l_salario <= 100000 AND l_salario > 50000 THEN 
+    l_comissao := l_salario * 0.01;
+     DBMS_OUTPUT.PUT_LINE( l_comissao );
+  ELSE
+    l_comissao := l_salario * 0.02;
+     DBMS_OUTPUT.PUT_LINE( l_comissao );
+  END IF;
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

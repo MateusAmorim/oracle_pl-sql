@@ -1,0 +1,61 @@
+// Aula 17 - Funções
+
+> SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION vendas_totais(
+    por_ano PLS_INTEGER
+) 
+RETURN NUMBER
+IS
+    l_vendas_totais NUMBER := 0;
+BEGIN
+
+    SELECT SUM(preco_unitario * quantidade)
+    INTO l_vendas_totais
+    FROM itens_pedidos
+    INNER JOIN pedidos USING (pedido_id)
+    WHERE status = 'Enviado'
+    GROUP BY EXTRACT(YEAR FROM pedido_data)
+    HAVING EXTRACT(YEAR FROM pedido_data) = por_ano;
+    
+    RETURN l_vendas_totais;
+END;
+
+SELECT
+    vendas_totais(2021)
+FROM
+    dual;
+
+BEGIN
+    IF vendas_totais (2021) > 20000 THEN
+        DBMS_OUTPUT.PUT_LINE('Vendas com meta alcançada');
+    END IF;
+END;
+
+DROP FUNCTION vendas_totais;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

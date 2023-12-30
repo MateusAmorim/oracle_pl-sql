@@ -1,0 +1,71 @@
+// Aula 15 - Cursor FOR LOOP
+
+> SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_produto
+  IS
+    SELECT 
+        produto_nome, preco_venda
+    FROM 
+        produtos 
+    ORDER BY 
+        preco_venda DESC;
+BEGIN
+  FOR r_produto IN c_produto
+  LOOP
+    dbms_output.put_line( r_produto.produto_nome || ': $' ||  r_produto.preco_venda );
+  END LOOP;
+END;
+
+BEGIN
+  FOR r_produto IN (
+        SELECT 
+            produto_nome, preco_venda 
+        FROM 
+            produtos
+        ORDER BY preco_venda DESC
+    )
+  LOOP
+     dbms_output.put_line( r_produto.produto_nome ||
+        ': $' || 
+        r_produto.preco_venda );
+  END LOOP;
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,37 @@
+// Aula 5 - Condicional GOTO
+
+> SET SERVEROUTPUT ON;
+
+BEGIN
+	GOTO segunda_saida;
+	DBMS_OUTPUT.PUT_LINE('Essa linha jamais será imprimida');
+
+	<<segunda_saida>>
+	DBMS_OUTPUT.PUT_LINE('Essa sim!');
+END;
+
+BEGIN
+  GOTO segunda_parte;
+
+  <<primeira_parte>>
+  DBMS_OUTPUT.PUT_LINE( 'Essa e a primeira parte da frase, ' );
+  GOTO parte_final;
+
+  <<segunda_parte>>
+  DBMS_OUTPUT.PUT_LINE( 'Esta e a segunda parte da frase, ' );
+  GOTO primeira_parte;
+
+  <<parte_final>>
+  DBMS_OUTPUT.PUT_LINE( 'e esse e o final dela.' );
+
+END;
+
+
+
+
+
+
+
+
+
+

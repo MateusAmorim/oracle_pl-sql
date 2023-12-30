@@ -1,0 +1,77 @@
+// Aula 6 - LOOP
+
+> SET SERVEROUTPUT ON;
+
+DECLARE
+  l_contador NUMBER := 0;
+BEGIN
+  LOOP
+    l_contador := l_contador + 1;
+    IF l_contador > 3 THEN
+      EXIT;
+    END IF;
+    dbms_output.put_line( 'Contador Loop: ' || l_contador )  ;
+  END LOOP;
+  -- o controle é retomado aqui após EXIT
+  dbms_output.put_line( 'Total de loops: ' || l_contador );
+END;
+
+DECLARE
+  l_contador NUMBER := 0;
+BEGIN
+  LOOP
+    l_contador := l_contador + 1;
+    EXIT WHEN l_contador > 3;
+    dbms_output.put_line( 'Contador Loop: ' || l_contador ) ;
+  END LOOP;
+
+  -- o controle é retomado aqui após EXIT
+  dbms_output.put_line( 'Total de loops: ' || l_contador );
+END;
+
+DECLARE
+  l_loop_externo NUMBER := 0;
+  l_loop_interno NUMBER := 0;
+BEGIN
+  <<loop_externo>>
+  LOOP
+    l_loop_externo := l_loop_externo + 1;
+    EXIT loop_externo WHEN l_loop_externo > 2;    
+    dbms_output.put_line('Contador externo ' || l_loop_externo);
+    -- redefinir contador interno
+    l_loop_interno := 0;
+      <<loop_interno>> LOOP
+      l_loop_interno := l_loop_interno + 1;
+      EXIT loop_interno WHEN l_loop_interno > 3;
+      dbms_output.put_line(' Contador interno ' || l_loop_interno);
+    END LOOP loop_interno;
+  END LOOP loop_externo;
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

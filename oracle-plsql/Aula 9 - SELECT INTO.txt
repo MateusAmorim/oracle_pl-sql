@@ -1,0 +1,83 @@
+// Aula 9 - SELECT INTO
+
+> SET SERVEROUTPUT ON;
+
+DECLARE
+  l_nome_cliente clientes.nome%TYPE;
+BEGIN
+  -- obter o nome do cliente nº 1 e atribuí-lo a l_nome_cliente
+  SELECT nome INTO l_nome_cliente
+  FROM clientes
+  WHERE cliente_id = 1;
+  -- imprimir o resultado
+  dbms_output.put_line( l_nome_cliente );
+END;
+
+DECLARE
+  l_cliente clientes%ROWTYPE;
+BEGIN
+  -- obter o nome do cliente nº 1
+  SELECT * INTO l_cliente
+  FROM clientes
+  WHERE cliente_id = 1;
+  -- imprimir o resultado
+  dbms_output.put_line( l_cliente.nome || ', website: ' || l_cliente.website );
+END;
+
+DECLARE
+  l_nome_cliente clientes.nome%TYPE;
+  l_nome_contatos contatos.funcionario_nome%TYPE;
+  l_sobrenome_contatos contatos.sobrenome%TYPE;
+BEGIN
+  -- obter nomes de clientes e contatos
+  SELECT
+    nome, 
+    funcionario_nome, 
+    sobrenome
+  INTO
+    l_nome_cliente, 
+    l_nome_contatos, 
+    l_sobrenome_contatos
+  FROM
+    clientes
+  INNER JOIN contatos USING( cliente_id )
+  WHERE
+    cliente_id = 1;
+  -- imprimir as informações
+  dbms_output.put_line( 
+    l_nome_cliente || ', Pessoal para Contato: ' ||
+    l_nome_contatos || ' ' || l_sobrenome_contatos );
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

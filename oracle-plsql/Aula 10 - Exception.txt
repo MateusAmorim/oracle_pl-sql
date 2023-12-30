@@ -1,0 +1,107 @@
+// Aula 10 - Exception
+
+DECLARE
+  l_nome_cliente clientes.nome%TYPE;
+  
+BEGIN
+  -- obter o nome do cliente nº 100 e atribuí-lo a l_nome_cliente
+  SELECT nome INTO l_nome_cliente
+  FROM clientes
+  WHERE cliente_id = 100;
+  -- imprimir o resultado
+  dbms_output.put_line( l_nome_cliente );
+  
+  EXCEPTION 
+        WHEN NO_DATA_FOUND THEN
+            dbms_output.put_line('Cliente' || l_nome_cliente ||  ' não encontrado!');
+END;
+
+DECLARE
+    l_nome clientes.NOME%TYPE;
+    l_cliente_id clientes.cliente_id%TYPE := &cliente_id;
+    
+BEGIN
+
+    SELECT NOME INTO l_nome
+    FROM clientes
+    WHERE cliente_id > l_cliente_id;
+    
+    dbms_output.put_line('O nome é ' || l_nome);
+    EXCEPTION 
+        WHEN NO_DATA_FOUND THEN
+            dbms_output.put_line('Cliente ' || l_cliente_id ||  ' tem existe no banco de dados');
+        WHEN TOO_MANY_ROWS THEN
+            dbms_output.put_line('O banco de dados retorna mais de um cliente');    
+END;
+
+https://docs.oracle.com/cd/E18283_01/timesten.112/e13076/exceptions.htm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

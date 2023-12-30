@@ -1,0 +1,76 @@
+// Aula 11 - OTHERS EXCEPTION
+
+DECLARE
+    l_cliente clientes%rowtype;
+    l_codigo NUMBER;
+BEGIN
+    SELECT * INTO l_cliente FROM clientes;
+    
+    EXCEPTION 
+        WHEN OTHERS THEN
+        l_codigo := SQLCODE;  
+        dbms_output.put_line('Erro de Código:' || l_codigo);
+END;
+
+DECLARE
+    l_cliente clientes%rowtype;
+    l_aviso VARCHAR2(200);
+BEGIN
+    SELECT * INTO l_cliente FROM clientes;
+    
+    EXCEPTION 
+        WHEN OTHERS THEN
+        l_aviso := SQLERRM;  
+        dbms_output.put_line(l_aviso);
+END;
+
+DECLARE
+    l_nome  contatos.funcionario_nome%TYPE := 'ClienteNome';
+    l_sobrenome   contatos.sobrenome%TYPE := 'ClienteSobrenome';
+    l_email       contatos.email%TYPE := 'teste@teste.com';
+    l_tel       contatos.tel%TYPE := '+55 11 123 1541';
+    l_cliente_id contatos.cliente_id%TYPE := -1;
+BEGIN
+    -- inserção de uma linha
+    INSERT INTO contatos(funcionario_nome, sobrenome, email, tel, cliente_id)
+    VALUES(l_nome, l_sobrenome, l_email, l_tel, l_cliente_id);
+    
+    EXCEPTION 
+        WHEN OTHERS THEN
+            DECLARE
+                l_erro PLS_INTEGER := SQLCODE;
+                l_aviso VARCHAR2(250) := sqlerrm;
+            BEGIN
+                CASE l_erro 
+                WHEN -1400 THEN
+                    -- null não permitido
+                    dbms_output.put_line('valor null não permitido ' || l_email);
+                    dbms_output.put_line(l_aviso);
+                    
+                WHEN -2291 THEN
+                    -- chave pai não encontrado
+                    dbms_output.put_line('id de cliente invalido ' || l_cliente_id);
+                    dbms_output.put_line(l_aviso);
+                END CASE;
+            END;
+            
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

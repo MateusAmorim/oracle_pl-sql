@@ -1,0 +1,104 @@
+// Aula 2 - Variáveis
+
+DECLARE
+    l_total_vendas NUMBER(15,2);
+    l_limite_credito NUMBER (10,0);    
+    l_nome_contato VARCHAR2(255);
+BEGIN
+    NULL;
+END;
+
+DECLARE
+  l_nome_produto VARCHAR2( 100 ) := 'Placa de Video';
+BEGIN
+  NULL;
+END;
+
+DECLARE 
+   l_nome_produto VARCHAR2(100) DEFAULT 'Placa de Video';
+BEGIN 
+   NULL; 
+END;
+
+DECLARE
+  l_entrega_status VARCHAR2( 25 ) NOT NULL := 'Enviado';
+BEGIN
+  l_entrega_status := '';
+END;
+
+DECLARE
+    l_grupo_clientes VARCHAR2(100) := 'Premium';
+BEGIN
+    l_grupo_clientes  := 'Master';
+    DBMS_OUTPUT.PUT_LINE(l_grupo_clientes );
+END;
+
+DECLARE
+    l_parceiro_negocios VARCHAR2(100) := 'Distributor';
+    l_tratato_por VARCHAR2(100);
+BEGIN
+    l_tratato_por := l_parceiro_negocios; 
+    DBMS_OUTPUT.PUT_LINE(l_tratato_por);
+END;
+
+DECLARE
+  l_nome_cliente clientes.nome%TYPE;
+  l_limite_credito clientes.limite_credito%TYPE;
+BEGIN
+  SELECT
+    nome, limite_credito
+  INTO
+    l_nome_cliente, l_limite_credito
+  FROM
+    clientes
+  WHERE
+    cliente_id = 1;
+    
+  DBMS_OUTPUT.PUT_LINE(l_nome_cliente || ':' || l_limite_credito );
+END;
+
+DECLARE
+    l_limite_credito   clientes.limite_credito%TYPE;
+    l_valor_medio l_limite_credito%TYPE;
+    l_credito_max     l_limite_credito%TYPE;
+    l_credito_min     l_limite_credito%TYPE;
+BEGIN
+     -- ver os limites de credito
+    SELECT 
+        MIN(limite_credito), 
+        MAX(limite_credito), 
+        AVG(limite_credito)
+    INTO 
+        l_credito_min,
+        l_credito_max, 
+        l_valor_medio
+    FROM clientes;
+    
+    SELECT 
+        limite_credito
+    INTO 
+        l_limite_credito
+    FROM 
+        clientes
+    WHERE 
+        cliente_id = 3;
+
+    -- mostrar os valores     
+    dbms_output.put_line('Valor Minimo do Credito: ' || l_credito_min);
+    dbms_output.put_line('Valor Maximo do Credito: ' || l_credito_max);
+    dbms_output.put_line('Valor Medio do Credito: ' || l_valor_medio);
+
+    -- mostrar os valores de crédito do cliente   
+    dbms_output.put_line('Limite Personalizado: ' || l_limite_credito);
+END;
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,77 @@
+// Aula 4 - Condicional CASE
+
+> SET SERVEROUTPUT ON;
+
+DECLARE
+  l_nota CHAR( 1 );
+  l_avaliacao  VARCHAR2( 20 );
+BEGIN
+  l_nota := 'C';
+  CASE l_nota
+  WHEN 'A' THEN
+    l_avaliacao := 'Perfeito' ;
+  WHEN 'B' THEN
+    l_avaliacao := 'Muito Bom' ;
+  WHEN 'C' THEN
+    l_avaliacao := 'Bom' ;
+  WHEN 'D' THEN
+    l_avaliacao := 'Regular' ;
+  WHEN 'F' THEN
+    l_avaliacao := 'Fraco' ;
+  ELSE
+    l_avaliacao := 'Sem Avaliação' ;
+  END CASE;
+  DBMS_OUTPUT.PUT_LINE( l_avaliacao );
+END;
+
+DECLARE
+  l_salario NUMBER;
+  l_bonus NUMBER;
+BEGIN
+  l_salario := 150000;
+  CASE
+  WHEN l_salario    > 200000 THEN
+    l_bonus := 0.2;
+  WHEN l_salario   >= 100000 AND l_salario < 200000 THEN
+    l_bonus := 0.15;
+  WHEN l_salario   >= 50000 AND l_salario < 100000 THEN
+    l_bonus := 0.1;
+  WHEN l_salario    > 30000 THEN
+    l_bonus := 0.05;
+  ELSE
+    l_bonus := 0;
+  END CASE;
+  
+  DBMS_OUTPUT.PUT_LINE( 'O seu Bonus e ' || l_bonus * 100 || '%'
+  );
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

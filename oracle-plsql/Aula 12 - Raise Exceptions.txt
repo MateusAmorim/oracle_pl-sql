@@ -1,0 +1,136 @@
+// Aula 12 - Raise Exceptions
+
+> SET SERVEROUTPUT ON;
+
+DECLARE
+    l_credito_alto EXCEPTION;
+    PRAGMA exception_init( l_credito_alto, -20001 );
+    l_max_credito clientes.limite_credito%TYPE;
+    l_cliente_id clientes.cliente_id%TYPE := &cliente_id;
+    l_credito clientes.limite_credito%TYPE := &limite_credito;
+BEGIN
+    SELECT MAX(limite_credito) 
+    INTO l_max_credito
+    FROM clientes;
+    
+    IF l_credito < l_max_credito THEN 
+        RAISE l_credito_alto;
+    END IF;
+    
+    UPDATE clientes 
+    SET limite_credito = l_credito
+    WHERE cliente_id = l_cliente_id;
+    
+    COMMIT;
+END;
+
+DECLARE
+    l_cliente_id clientes.cliente_id%TYPE := &cliente_id;
+BEGIN
+    IF l_cliente_id < 0 THEN
+        RAISE invalid_number;
+    END IF;
+END;
+
+DECLARE
+    l_credito_alto EXCEPTION;
+    PRAGMA exception_init( l_credito_alto, -20001 );
+    l_max_credito clientes.limite_credito%TYPE;
+    l_cliente_id clientes.cliente_id%TYPE := &cliente_id;
+    l_credito clientes.limite_credito%TYPE := &limite_credito;
+BEGIN
+    BEGIN
+        
+        SELECT MAX(limite_credito) 
+        INTO l_max_credito
+        FROM clientes;
+        
+        IF l_credito > l_max_credito THEN 
+            RAISE l_credito_alto;
+        END IF;
+        EXCEPTION
+            WHEN l_credito_alto THEN
+                dbms_output.put_line('O crédito é alto demais: ' || l_credito);
+                RAISE; -- reraise the exception
+    END;
+EXCEPTION
+    WHEN l_credito_alto THEN
+        
+        SELECT avg(limite_credito) 
+        into l_credito
+        from clientes;
+   
+        dbms_output.put_line('Crédito ajustado para: ' || l_credito);
+
+        UPDATE clientes 
+        SET limite_credito = l_credito
+        WHERE cliente_id = l_cliente_id;
+   
+        COMMIT;
+END;
+
+> SELECT * FROM clientes WHERE cliente_id = 1;
+
+DECLARE
+    limite_credito_excedido EXCEPTION;
+    PRAGMA exception_init(limite_credito_excedido, -20111);
+
+    l_cliente_id     clientes.cliente_id%TYPE := &cliente_id;
+    l_credito_limite    clientes.limite_credito%TYPE := &limite_credito;
+
+    l_credito_cliente clientes.limite_credito%TYPE;
+    
+BEGIN
+    -- obter limite de crédito do cliente
+    SELECT limite_credito INTO l_credito_cliente
+    FROM clientes
+    WHERE cliente_id = l_cliente_id;
+    
+    IF l_credito_cliente < l_credito_limite THEN
+        raise_application_error(-20111,'Negado, Limite de crédito excedido');
+    END IF;
+    
+    dbms_output.put_line('O novo limite de crédito foi aprovado!');
+    
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            dbms_output.put_line('ID do cliente ' || l_cliente_id || ' não existe.');
+END;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
